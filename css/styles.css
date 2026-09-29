@@ -48,7 +48,7 @@
 @media(min-width:48em){.feature-strip__image-wrap{height:100%;min-height:38rem}.feature-strip__image-wrap img{position:absolute;inset:0}}
 
 /* Booking form spacing and mobile iframe height */
-.booking__shell{padding:0 50px}
+.booking__shell{padding:0 35px}
 @media(max-width:47.99em){
   .booking__frame{height:1320px}
 }

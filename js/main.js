@@ -6,7 +6,12 @@ links.forEach(link=>link.addEventListener('click',close));
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){close();toggle?.focus()}});
 document.addEventListener('click',e=>{if(!e.target.closest('.site-nav')&&!e.target.closest('.site-header__cta'))close()});
 const sections=links.map(link=>document.querySelector(link.getAttribute('href'))).filter(Boolean);
-if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;links.forEach(link=>{if(link.getAttribute('href')===`#${visible.target.id}`)link.setAttribute('aria-current','true');else link.removeAttribute('aria-current')})},{rootMargin:'-28% 0px -58% 0px',threshold:[0,.15,.35]});sections.forEach(section=>observer.observe(section))}
+const setActiveNav=(hash)=>{links.forEach(link=>{if(link.getAttribute('href')===hash)link.setAttribute('aria-current','true');else link.removeAttribute('aria-current')})};
+// Make the clicked/hash navigation item active immediately. This is especially
+// important for Contact because it sits close to the bottom of the document.
+links.forEach(link=>link.addEventListener('click',()=>setActiveNav(link.getAttribute('href'))));
+if('IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>{const hashTarget=location.hash&&document.querySelector(location.hash);if(hashTarget){const r=hashTarget.getBoundingClientRect();const isOnScreen=r.top<window.innerHeight&&r.bottom>0;if(isOnScreen){setActiveNav(location.hash);return}}const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;setActiveNav(`#${visible.target.id}`)},{rootMargin:'-28% 0px -58% 0px',threshold:[0,.15,.35]});sections.forEach(section=>observer.observe(section))} 
+window.addEventListener('hashchange',()=>{if(location.hash)setActiveNav(location.hash)});
 // Keep the footer copyright year current automatically.
 const copyrightYear=document.getElementById('copyright-year');
 if(copyrightYear) copyrightYear.textContent=new Date().getFullYear();
