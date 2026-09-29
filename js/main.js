@@ -10,3 +10,20 @@ if('IntersectionObserver'in window){const observer=new IntersectionObserver(entr
 // Keep the footer copyright year current automatically.
 const copyrightYear=document.getElementById('copyright-year');
 if(copyrightYear) copyrightYear.textContent=new Date().getFullYear();
+
+// Keep the correct navigation item active at the bottom of the page.
+// The Contact section may not cross the IntersectionObserver's active band
+// because the document ends shortly after it.
+const syncNavAtPageEnd=()=>{
+  const atPageEnd=window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-8;
+  if(atPageEnd&&document.querySelector('#contact')){
+    links.forEach(link=>{
+      if(link.getAttribute('href')==='#contact') link.setAttribute('aria-current','true');
+      else link.removeAttribute('aria-current');
+    });
+  }
+};
+window.addEventListener('scroll',syncNavAtPageEnd,{passive:true});
+window.addEventListener('resize',syncNavAtPageEnd);
+window.addEventListener('hashchange',syncNavAtPageEnd);
+syncNavAtPageEnd();
