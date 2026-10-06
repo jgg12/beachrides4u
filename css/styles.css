@@ -52,3 +52,72 @@
 @media(max-width:47.99em){
   .booking__frame{height:1320px}
 }
+
+/* Requested site refinements — 2026-10-06 */
+
+/* Destinations served */
+.intro__destinations{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.25rem 0 0;padding:0;list-style:none}
+.intro__destinations li{padding:.4rem .95rem;border:1px solid var(--color-line);border-radius:var(--pill);background:#fff;color:var(--color-navy);font:600 .95rem/1.4 var(--font-heading)}
+
+/* Services: two cards, 50/50 from tablet up */
+@media(min-width:64em){.services__list--two{grid-template-columns:repeat(2,1fr)}}
+
+/* Pricing table */
+.pricing__panel{align-items:start}
+.pricing__table-wrap{overflow-x:auto;margin-bottom:1.25rem;border-radius:.125rem;box-shadow:0 18px 40px rgba(11,37,69,.22)}
+.pricing-table{width:100%;border-collapse:collapse;background:#fff;color:var(--color-navy);font-size:1rem}
+.pricing-table th,.pricing-table td{padding:.9rem 1rem;text-align:left;border-bottom:1px solid var(--color-line)}
+.pricing-table thead th{background:var(--color-sand);font:700 .85rem/1.3 var(--font-heading);color:var(--color-navy);border-bottom:3px solid var(--color-sunset)}
+.pricing-table tbody th{font:600 1rem/1.35 var(--font-heading)}
+.pricing-table tbody tr:last-child th,.pricing-table tbody tr:last-child td{border-bottom:0}
+.pricing-table__price{font:800 1.2rem/1 var(--font-heading);color:var(--color-ocean);white-space:nowrap}
+.pricing-table__price--group{color:var(--color-pink)}
+.pricing-table th:not(:first-child),.pricing-table td{text-align:right}
+.pricing__note{margin-bottom:1.25rem}
+@media(max-width:29.99em){.pricing-table th,.pricing-table td{padding:.8rem .7rem}.pricing-table__price{font-size:1.05rem}}
+
+/* Refinements — 2026-10-06 (round 2) */
+.pricing__intro .pricing__note{max-width:30rem;font-size:1.08rem}
+.pricing__table-wrap{margin-bottom:0}
+.card__title{margin-top:.25rem}
+
+/* Mobile header: logo left, Book a Ride + menu on one row — 2026-10-06 */
+@media(max-width:63.99em){
+  .site-header__inner{gap:0 .375rem;min-height:4.5rem;padding:.5rem 1rem}
+  .js .site-header__inner{flex-wrap:nowrap}
+  .site-header__brand{flex:0 1 auto;min-width:0}
+  .site-header__logo{width:clamp(8.5rem,38vw,14rem);height:auto;max-width:100%}
+  .site-header__cta{flex:none;min-height:var(--tap);padding:.55rem .95rem;font-size:.875rem;white-space:nowrap}
+  .js .site-header__cta{order:1}
+  .js .site-nav{order:2;flex:none}
+  /* No-JS fallback: nav drops to its own scrollable row without widening the page */
+  .site-nav{min-width:0}
+  .site-nav__list{margin:0 -1rem;padding:0 1rem}
+  .js .site-nav__list{margin:0;padding:.5rem 1.25rem 1rem}
+}
+
+/* Small phones: let the contact column shrink so the email can't push the page sideways */
+.contact__grid>*{min-width:0}
+.contact__details dd{min-width:0;overflow-wrap:anywhere}
+
+/* Mobile hardening — 2026-10-06
+   Holds up when a visitor's browser uses larger default text. */
+@media(max-width:63.99em){
+  /* Logo takes whatever room is left; CTA and menu button keep their size */
+  .site-header__brand{flex:1 1 0;min-width:0}
+  .site-header__logo{width:100%;max-width:14rem;height:auto}
+}
+@media(max-width:47.99em){
+  .hero__title{font-size:clamp(2.25rem,11.5vw,6.5rem)}
+  .section__title,.display-title{font-size:clamp(2rem,9vw,4rem)}
+}
+/* Safety net: nothing can push the page sideways. clip (not hidden) keeps the sticky header working. */
+html,body{overflow-x:clip}
+/* Grid children may shrink, so wide content (table, long words) stays inside the column */
+.pricing__panel>*,.intro__grid>*{min-width:0}
+.display-title,.section__title{overflow-wrap:break-word}
+/* Hide the header CTA only when the header is too narrow for logo + CTA + menu.
+   Container em units follow the visitor's text size, so this adapts to larger default text. */
+.site-header{container:site-header/inline-size}
+@container site-header (max-width:21em){.site-header__cta{display:none}}
+@media(max-width:63.99em){.site-header__logo{max-width:min(12rem,52vw)}}

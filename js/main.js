@@ -1,3 +1,6 @@
+// Wrapped in an IIFE (no globals) and loaded with defer, so it also runs when
+// index.html is opened straight from disk (file://), where module scripts are blocked.
+(() => {
 const root=document.documentElement;root.classList.remove('no-js');root.classList.add('js');
 const toggle=document.querySelector('.site-nav__toggle');const links=[...document.querySelectorAll('.site-nav__link')];
 const close=()=>toggle?.setAttribute('aria-expanded','false');
@@ -32,3 +35,4 @@ window.addEventListener('scroll',syncNavAtPageEnd,{passive:true});
 window.addEventListener('resize',syncNavAtPageEnd);
 window.addEventListener('hashchange',syncNavAtPageEnd);
 syncNavAtPageEnd();
+})();
